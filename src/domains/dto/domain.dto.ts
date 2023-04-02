@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsUrl } from 'class-validator';
 
-export class GetInformationDto {
+export class DomainDto {
   @IsUrl()
   @IsNotEmpty()
   domain: string;
