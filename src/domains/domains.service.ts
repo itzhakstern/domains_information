@@ -1,26 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { DomainAnalysisStatus } from './domain-analysis-status.enum';
+import { Domain } from './domain.entity';
 import { DomainDto } from './dto/domain.dto';
 
 @Injectable()
 export class DomainsService {
-  private domainsWithInformation = {
-    'https://docs.nestjs.com/techniques/validation': {
-      virusTotal: 'ljsebfhebckwebCOAK',
-      WHOLS: 'AAA',
-    },
-  };
-  private domainsWithoutInformation = new Set();
-  getInformation(domainDto: DomainDto): object {
+  constructor(
+    @InjectRepository(Domain)
+    private domainsRepository: Repository<Domain>,
+  ) {}
+
+  async getInformationByDomain(domainDto: DomainDto): Promise<Domain> {
     const domain = domainDto.domain;
-    const domainResult = this.domainsWithInformation[domain];
-    if (domainResult) {
-      return domainResult;
+    const found = await this.domainsRepository.findOneBy({ domain: domain });
+    console.log(found);
+    if (!found) {
+      this.addDomain(domainDto);
+      throw new NotFoundException(`Domain "${domain}" not found`);
     }
-    this.domainsWithoutInformation.add(domain);
-    return { msg: `Informaition about ${domain} not found` };
+    if (found.domainAnalysisStatus == DomainAnalysisStatus.PENDING_ANALYSIS) {
+      throw new InternalServerErrorException({
+        msg: `the domain "${domain} until not alalysis`,
+      });
+    }
+    return found;
   }
 
-  addDomain(domainDto: DomainDto): object {
-    return {};
+  async addDomain(domainDto: DomainDto): Promise<Domain> {
+    const domain = domainDto.domain;
+    try {
+      const newDomainObject = this.domainsRepository.create({
+        domain,
+        updatedAt: new Date(),
+        virusTotalInformation: {},
+        wolesInformation: {},
+        domainAnalysisStatus: DomainAnalysisStatus.PENDING_ANALYSIS,
+      });
+      await this.domainsRepository.save(newDomainObject);
+      return newDomainObject;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 }
