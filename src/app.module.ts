@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { configValidationSchema } from './config.schema';
 import { DomainsModule } from './domains/domains.module';
 import { SchdulerModule } from './schduler/schduler.module';
@@ -32,7 +30,5 @@ import { SchdulerModule } from './schduler/schduler.module';
     }),
     SchdulerModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
