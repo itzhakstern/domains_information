@@ -37,3 +37,4 @@ lerna-debug.log*
 run.sh
 .virus_total_secret
 .whois_secret
+.env.stage.dev
