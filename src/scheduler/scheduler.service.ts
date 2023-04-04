@@ -14,7 +14,7 @@ import { DomainInformation } from './domainInformation.interface';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class SchdulerService {
+export class SchedulerService {
   private logger = new Logger('SchedulerService', { timestamp: true });
   constructor(
     @InjectRepository(Domain)

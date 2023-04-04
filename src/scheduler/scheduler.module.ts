@@ -1,12 +1,12 @@
 /**
  * The scheduler module is responsible for scheduling background tasks related to domain information.
- * It provides the `SchdulerService` which can be used to schedule domain information retrieval.
+ * It provides the `SchedulerService` which can be used to schedule domain information retrieval.
  */
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Domain } from 'src/domains/domain.entity';
-import { SchdulerService } from './schduler.service';
+import { SchedulerService } from './scheduler.service';
 
 @Module({
   imports: [
@@ -17,6 +17,6 @@ import { SchdulerService } from './schduler.service';
     TypeOrmModule.forFeature([Domain]),
     ConfigModule,
   ],
-  providers: [SchdulerService],
+  providers: [SchedulerService],
 })
-export class SchdulerModule {}
+export class SchedulerModule {}

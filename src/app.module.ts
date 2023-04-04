@@ -4,7 +4,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configValidationSchema } from './config.schema';
 import { DomainsModule } from './domains/domains.module';
-import { SchdulerModule } from './schduler/schduler.module';
+import { SchedulerModule } from './scheduler/scheduler.module';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { SchdulerModule } from './schduler/schduler.module';
         database: configService.get('DB_DATABASE'),
       }),
     }),
-    SchdulerModule,
+    SchedulerModule,
   ],
 })
 export class AppModule {}
