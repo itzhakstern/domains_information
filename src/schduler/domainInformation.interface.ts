@@ -12,4 +12,8 @@ export interface DomainInformation {
    * Information about the domain retrieved from Whois.
    */
   informationFromWhois: Promise<AxiosResponse>;
+  /**
+   * Information about the domain retrieved from SecurityTrails.
+   */
+  informationFromSecurityTrails: Promise<AxiosResponse>;
 }

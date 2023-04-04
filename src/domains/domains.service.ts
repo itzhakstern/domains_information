@@ -22,7 +22,7 @@ export class DomainsService {
   ) {}
 
   /**
-   * Creates a new domain object with the given domain name and default values for the virusTotalInformation, whoisInformation, and domainAnalysisStatus fields.
+   * Creates a new domain object with the given domain name and default values for the virusTotalInformation, whoisInformation, securityTrailsInformation, and domainAnalysisStatus fields.
    */
   createDomainObject(domain: string) {
     return this.domainsRepository.create({
@@ -30,6 +30,7 @@ export class DomainsService {
       updatedAt: new Date(),
       virusTotalInformation: null,
       whoisInformation: null,
+      securityTrailsInformation: null,
       domainAnalysisStatus: DomainAnalysisStatus.PENDING_ANALYSIS,
     });
   }
@@ -64,6 +65,7 @@ export class DomainsService {
       domain: domainObject.domain,
       virusTotalInformation: domainObject.virusTotalInformation,
       whoisInformation: domainObject.whoisInformation,
+      securityTrailsInformation: domainObject.securityTrailsInformation,
       updatedAt: domainObject.updatedAt,
     };
   }

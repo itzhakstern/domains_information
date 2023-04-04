@@ -32,6 +32,12 @@ export class Domain {
   whoisInformation: object;
 
   /**
+   * The WHOIS information for the domain.
+   */
+  @Column('json', { nullable: true })
+  securityTrailsInformation: object;
+
+  /**
    * The timestamp when the domain information was last updated.
    */
   @Column()

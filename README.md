@@ -1,6 +1,6 @@
 ## Description
 
-Suunto is a system that combines a REST API server and a scheduling system for information about domains.
+Sonto is a system that combines a REST API server and a scheduling system for information about domains.
 
 The system is written in TypeScript using NestJS as a framework.
 

@@ -28,7 +28,7 @@ export class DomainsController {
    * Adds a new domain to the system.
    */
   @Post()
-  sddDomain(@Body() domainDto: DomainDto): Promise<void> {
+  addDomain(@Body() domainDto: DomainDto): Promise<void> {
     return this.domainsService.addDomain(domainDto);
   }
 }

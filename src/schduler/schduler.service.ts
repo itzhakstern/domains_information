@@ -43,6 +43,8 @@ export class SchdulerService {
         domain.virusTotalInformation =
           domainInformation.informationFromVirusTotal;
         domain.whoisInformation = domainInformation.informationFromWhois;
+        domain.securityTrailsInformation =
+          domainInformation.informationFromSecurityTrails;
         domain.domainAnalysisStatus = DomainAnalysisStatus.DONE;
         domain.updatedAt = new Date();
         this.domainsRepository.save(domain);
@@ -81,6 +83,8 @@ export class SchdulerService {
         domain.virusTotalInformation =
           domainInformation.informationFromVirusTotal;
         domain.whoisInformation = domainInformation.informationFromWhois;
+        domain.securityTrailsInformation =
+          domainInformation.informationFromSecurityTrails;
         domain.updatedAt = new Date();
         this.domainsRepository.save(domain);
         this.logger.verbose(`Success update domain "${domain.domain}"`);
@@ -145,6 +149,36 @@ export class SchdulerService {
   }
 
   /**
+  Retrieves information about a domain from SecurityTrails API.
+  @param {string} domain - The domain name to retrieve information about.
+  @returns {Promise<AxiosResponse>} - A promise that resolves with the response from Whois API.
+  @throws {Error} - If unable to retrieve information from Whois API.
+  */
+  async getInformationFromSecurityTrails(
+    domain: string,
+  ): Promise<AxiosResponse> {
+    const config: AxiosRequestConfig = {
+      params: {
+        apiKey: this.condigService.get('WHOIS_API_KEY'),
+        domainName: domain,
+        outputFormat: 'JSON',
+      },
+    };
+    try {
+      const response = await axios.get(
+        `${this.condigService.get('WHOIS_ENDPOINT')}`,
+        config,
+      );
+      return response;
+    } catch (error) {
+      this.logger.error(
+        `Failed to get information from Whois to domain "${domain}"`,
+        error.stack,
+      );
+    }
+  }
+
+  /**
   Retrieves information about a domain from VirusTotal API and Whois API.
   * @param {string} domain - The domain name to retrieve information about.
   */
@@ -154,9 +188,12 @@ export class SchdulerService {
         domain,
       );
       const informationFromWhois = await this.getInformationFromWhois(domain);
+      const informationFromSecurityTrails =
+        await this.getInformationFromSecurityTrails(domain);
       return {
         informationFromVirusTotal: informationFromVirusTotal.data,
         informationFromWhois: informationFromWhois.data,
+        informationFromSecurityTrails: informationFromSecurityTrails.data,
       };
     } catch (error) {
       console.log(`Failed to get information of domain "${domain}"`);
