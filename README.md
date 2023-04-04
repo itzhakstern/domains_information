@@ -19,6 +19,8 @@ In addition, the system has a timer that performs the following actions:
 - Once a minute, fetches from the database all the domains with PENDING status and runs a scan on them to get the desired information on them, and updates it in the database.
 - Once every 10 minutes, fetches from the database all the domains whose updatedAt was before a certain predetermined period of time (by default I set a month) and runs a repeat scan on them to update the information on them
 
+<img width="1138" alt="צילום מסך 2023-04-04 ב-19 40 20" src="https://user-images.githubusercontent.com/83215154/229877949-7d63cb5f-9491-4495-b997-484f4ac0375e.png">
+
 ## Run on your computer
 
 ### Installation
