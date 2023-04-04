@@ -1,100 +1,63 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Suunto is a system that combines a REST API server and a scheduling system for information about domains.
 
-## Installation
+The system is written in TypeScript using NestJS as a framework.
 
-```bash
-$ yarn install
+The purpose of the system is to allow domains to be entered and then receive the information about them received from dedicated services such as VirusTotal and WHOIS while the system updates the information about the domains once every predetermined time.
+
+The REST API is built from two endpoints.
+- Endpoint to receive GET requests with a domain in the body and does the following:
+  - If the domain exists in the system and is in DONE status -> return the information about it.
+  - If the domain exists in the system but with PENDING status -> return a message that there is no information about the domain and please come back later to check.
+  - If the domain does not exist in the system -> enter it into the system with PENDING status and return a message that there is no information about the domain and please come back later to check.
+- Endpoint to receive POST requests with domain in the body of the request and:
+  - If the domain exists in the system -> update the status to PENDING.
+  - Otherwise, enter it into the system with PENDING status.
+
+In addition, the system has a timer that performs the following actions:
+- Once a minute, fetches from the database all the domains with PENDING status and runs a scan on them to get the desired information on them, and updates it in the database.
+- Once every 10 minutes, fetches from the database all the domains whose updatedAt was before a certain predetermined period of time (by default I set a month) and runs a repeat scan on them to update the information on them
+
+## Run on your computer
+
+### Installation
+- Make sure you have Node:16, Yarn installed.
+- Pull the project from github using git clone
+- In the project's main folder, create an .env.stage.dev file according to the shape of .env.stage.dev.example and the deductive values ​​there (note that you must create an ApiKey to use in VirusTotal and WHOIS).
+### Running the app
+``` bash
+# install node modules
+$ yarn
+
+# install the NestJS cli
+$ npm install -g @nestjs/cli
+
+# postgres db on docker
+$ docker run --name postgres-nest -p 3002:5432 \
+-e POSTGRES_USER=postgres \
+-e POSTGRES_PASSWORD=postgres \
+-e POSTGRES_DB=domain-information \
+-d postgres
+
+# running development
+$ yarn stert:dev
 ```
 
-## Running the app
+## Run system using Docker
+- Pull the project from github using the git clone command.
+- In the docker-compose.yml file, update the environment: VIRUS_TOTAL_API_KEY and WHOIS_API_KEY with the    necessary values.
+### Running the app
+``` bash
+# start system
+$ docker-compose up -d --build
 
-```bash
-# development
-$ yarn run start
+# check logs
+$ docker-compose logs sonto
 
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+# teardown
+$ docker-compose down
 ```
 
-## Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
-
-
-
-
-
-## HOW TO RUN
-
-```bash
-  # start system
-  docker-compose up -d --build
-  # check logs
-  docker-compose logs sonto
-  # teardown
-  docker-compose down
-```
-
-## Run docker with postgres only
-
-```bush
-  docker run --name postgres-nest -p 3002:5432 \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=postgres \
-  -e POSTGRES_DB=domain-information \
-  -d postgres
-```
 
   
