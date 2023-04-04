@@ -4,7 +4,7 @@ Suunto is a system that combines a REST API server and a scheduling system for i
 
 The system is written in TypeScript using NestJS as a framework.
 
-The purpose of the system is to allow domains to be entered and then receive the information about them received from dedicated services such as VirusTotal and WHOIS while the system updates the information about the domains once every predetermined time.
+The objective of the system is to provide a user interface that allows to retrieval a relevant information through dedicated service integration.
 
 The REST API is built from two endpoints.
 - Endpoint to receive GET requests with a domain in the body and does the following:
