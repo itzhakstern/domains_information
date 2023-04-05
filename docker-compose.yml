@@ -14,9 +14,9 @@ services:
       VIRUS_TOTAL_ENDPOINT: "https://www.virustotal.com/api/v3/domains"
       WHOIS_ENDPOINT: "https://www.whoisxmlapi.com/whoisserver/WhoisService"
       SECURITY_TRAILS_ENDPOINT: "https://api.securitytrails.com/v1/domain/"
-      VIRUS_TOTAL_API_KEY: "cdddb09dda0a7e1f6e8de2d507edddef7487a4b544ee635b13fcbbafd47875c3"
-      WHOIS_API_KEY: "at_KhqN4ODDRYoo88J3CxThx7C0iRk6Y"
-      SECURITY_TRAILS_API_KEY: "TeasM2LBrWdmsEPRPCep8lu4AKYOS9k1"
+      VIRUS_TOTAL_API_KEY: "<-------------->"
+      WHOIS_API_KEY: "<-------------->"
+      SECURITY_TRAILS_API_KEY: "<-------------->"
       PERIOD_AGO_TO_SCAN: "30*24*60*60*1000"
     depends_on: 
       postgres: 
