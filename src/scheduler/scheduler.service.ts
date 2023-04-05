@@ -1,5 +1,5 @@
 /**
-A service that runs scheduled tasks to analyze domains for their information from VirusTotal and Whois.
+A service that runs scheduled tasks to analyze domains for their information from VirusTotal, Whois and SecurityTrails.
 This service is responsible for updating domains that have not been analyzed for a certain period and analyzing domains in a pending analysis state.
 @class
 */
@@ -24,7 +24,7 @@ export class SchedulerService {
 
   /**
   A scheduled task that analyzes domains that are in a pending analysis state.
-  If an analysis is successful, the domain status is updated to done, and the domain information from VirusTotal and Whois is stored in the database.
+  If an analysis is successful, the domain status is updated to done, and the domain information from VirusTotal, Whois and SecurityTrails is stored in the database.
   */
   @Cron(CronExpression.EVERY_10_SECONDS)
   async anlysisDomainsInPending(): Promise<void> {
@@ -59,7 +59,7 @@ export class SchedulerService {
 
   /**
   A scheduled task that updates domains that have not been analyzed for a certain period.
-  If an update is successful, the domain information from VirusTotal and Whois is stored in the database.
+  If an update is successful, the domain information from VirusTotal, Whois and SecurityTrails is stored in the database.
   */
   @Cron(CronExpression.EVERY_10_MINUTES)
   async findDomainsToUpdate(): Promise<void> {
@@ -179,7 +179,7 @@ export class SchedulerService {
   }
 
   /**
-  Retrieves information about a domain from VirusTotal API and Whois API.
+  Retrieves information about a domain from VirusTotal, Whois and SecurityTrails API's.
   * @param {string} domain - The domain name to retrieve information about.
   */
   async getDomainInformation(domain: string): Promise<DomainInformation> {

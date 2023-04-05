@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 /**
- * Represents information retrieved from VirusTotal and Whois services for a domain.
+ * Represents information retrieved from VirusTotal, Whois and SecurityTrails services for a domain.
  */
 export interface DomainInformation {
   /**
