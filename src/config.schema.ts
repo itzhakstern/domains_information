@@ -11,5 +11,7 @@ export const configValidationSchema = Joi.object({
   WHOIS_ENDPOINT: Joi.string().required(),
   VIRUS_TOTAL_API_KEY: Joi.string().required(),
   WHOIS_API_KEY: Joi.string().required(),
+  SECURITY_TRAILS_ENDPOINT: Joi.string().required(),
+  SECURITY_TRAILS_API_KEY: Joi.string().required(),
   PERIOD_AGO_TO_SCAN: Joi.string().required(),
 });
